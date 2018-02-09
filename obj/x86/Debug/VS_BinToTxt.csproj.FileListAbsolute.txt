@@ -1,0 +1,7 @@
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\bin\Debug\VS_BinToTxt.exe
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\bin\Debug\VS_BinToTxt.pdb
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.Properties.Resources.resources
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.csproj.GenerateResource.Cache
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.exe
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.pdb
+D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.Form1.resources
