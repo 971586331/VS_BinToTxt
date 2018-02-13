@@ -13,26 +13,27 @@ namespace VS_BinToTxt
 {
     public partial class Form1 : Form
     {
-
+        public string InputDirectories;
+        public string OutputDirectories;
         struct Data_Node
         {
-            string InputFilePath;    //输入文件的路径
-            string OutputFilePath;   //输出文件的路径
+            public string InputFilePath;    //输入文件的路径
+            public string OutputFilePath;   //输出文件的路径
         };
 
         Queue<Data_Node> gQueue_Data = new Queue<Data_Node>();
 
-        void traverse_dir(string path, ref Queue<Data_Node> queue)
+        void traverse_dir(string inputpath, string outputpath, ref Queue<Data_Node> queue)
         {
-            DirectoryInfo dir = new DirectoryInfo(path);
+            DirectoryInfo dir = new DirectoryInfo(inputpath);
             FileInfo[] fil = dir.GetFiles();
             DirectoryInfo[] dii = dir.GetDirectories();
 
             //获取子文件夹内的文件列表，递归遍历  
             foreach (DirectoryInfo d in dii)
             {
-                //traverse_dir(d.Name, ref queue);
-                Console.WriteLine("dir = {0}", d.Name);
+                traverse_dir(d.FullName, outputpath, ref queue);
+                //Console.WriteLine("dir = {0}", d.FullName);
             } 
 
             foreach (FileInfo f in fil)
@@ -40,7 +41,19 @@ namespace VS_BinToTxt
                 Data_Node temp;
 
                 Console.WriteLine("file = {0}\\{1}", f.DirectoryName, f.Name);
-                //queue.Enqueue(temp);
+                temp.InputFilePath = f.DirectoryName + "\\" + f.Name;
+                temp.OutputFilePath = outputpath + temp.InputFilePath.Substring(InputDirectories.Length, temp.InputFilePath.Length - InputDirectories.Length) + ".txt";
+                Console.WriteLine("inputdir = {0}", temp.InputFilePath);
+                Console.WriteLine("outputdir = {0}", temp.OutputFilePath);
+
+                string dir1 = temp.OutputFilePath.Substring(0, temp.OutputFilePath.LastIndexOf("\\"));
+                Console.WriteLine("outputdir1 = {0}", dir1);
+                if (Directory.Exists(dir1) == false)
+                {
+                    Directory.CreateDirectory(dir1);
+
+                }
+                queue.Enqueue(temp);
             }
         }
 
@@ -55,8 +68,8 @@ namespace VS_BinToTxt
             folder.Description = "选择bin文件目录";
             if (folder.ShowDialog() == DialogResult.OK)
             {
-                string sPath = folder.SelectedPath;
-                this.textBox_open.Text = sPath;
+                InputDirectories = folder.SelectedPath;
+                this.textBox_open.Text = InputDirectories;
             }
         }
 
@@ -66,15 +79,16 @@ namespace VS_BinToTxt
             folder.Description = "选择txt存放目录";
             if (folder.ShowDialog() == DialogResult.OK)
             {
-                string sPath = folder.SelectedPath;
-                this.textBox_save.Text = sPath;
+                OutputDirectories = folder.SelectedPath;
+                this.textBox_save.Text = OutputDirectories;
             }
         }
 
         private void button_check_Click(object sender, EventArgs e)
         {
-            string path = this.textBox_open.Text;
-            traverse_dir(path, ref gQueue_Data);
+            InputDirectories = this.textBox_open.Text;
+            OutputDirectories = this.textBox_save.Text;
+            traverse_dir(InputDirectories, OutputDirectories, ref gQueue_Data);
         }
 
     }
