@@ -35,7 +35,7 @@
             this.textBox_save = new System.Windows.Forms.TextBox();
             this.button_save = new System.Windows.Forms.Button();
             this.button_check = new System.Windows.Forms.Button();
-            this.label_filenume = new System.Windows.Forms.Label();
+            this.label_filenum = new System.Windows.Forms.Label();
             this.button_start = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -108,14 +108,14 @@
             this.button_check.UseVisualStyleBackColor = true;
             this.button_check.Click += new System.EventHandler(this.button_check_Click);
             // 
-            // label_filenume
+            // label_filenum
             // 
-            this.label_filenume.AutoSize = true;
-            this.label_filenume.Location = new System.Drawing.Point(23, 176);
-            this.label_filenume.Name = "label_filenume";
-            this.label_filenume.Size = new System.Drawing.Size(65, 12);
-            this.label_filenume.TabIndex = 7;
-            this.label_filenume.Text = "文件个数：";
+            this.label_filenum.AutoSize = true;
+            this.label_filenum.Location = new System.Drawing.Point(21, 170);
+            this.label_filenum.Name = "label_filenum";
+            this.label_filenum.Size = new System.Drawing.Size(65, 12);
+            this.label_filenum.TabIndex = 7;
+            this.label_filenum.Text = "文件个数：";
             // 
             // button_start
             // 
@@ -125,6 +125,7 @@
             this.button_start.TabIndex = 8;
             this.button_start.Text = "开始转换";
             this.button_start.UseVisualStyleBackColor = true;
+            this.button_start.Click += new System.EventHandler(this.button_start_Click);
             // 
             // button_stop
             // 
@@ -134,6 +135,7 @@
             this.button_stop.TabIndex = 9;
             this.button_stop.Text = "结果转换";
             this.button_stop.UseVisualStyleBackColor = true;
+            this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
             // progressBar1
             // 
@@ -200,7 +202,7 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_start);
-            this.Controls.Add(this.label_filenume);
+            this.Controls.Add(this.label_filenum);
             this.Controls.Add(this.button_check);
             this.Controls.Add(this.button_save);
             this.Controls.Add(this.textBox_save);
@@ -224,7 +226,7 @@
         private System.Windows.Forms.TextBox textBox_save;
         private System.Windows.Forms.Button button_save;
         private System.Windows.Forms.Button button_check;
-        private System.Windows.Forms.Label label_filenume;
+        private System.Windows.Forms.Label label_filenum;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_stop;
         private System.Windows.Forms.ProgressBar progressBar1;

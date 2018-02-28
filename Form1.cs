@@ -8,20 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace VS_BinToTxt
 {
     public partial class Form1 : Form
     {
+        ThreadTest workerObject;
+        Thread workerThread;
+
         public string InputDirectories;
         public string OutputDirectories;
-        struct Data_Node
-        {
-            public string InputFilePath;    //输入文件的路径
-            public string OutputFilePath;   //输出文件的路径
-        };
-
-        Queue<Data_Node> gQueue_Data = new Queue<Data_Node>();
 
         void traverse_dir(string inputpath, string outputpath, ref Queue<Data_Node> queue)
         {
@@ -60,6 +58,8 @@ namespace VS_BinToTxt
         public Form1()
         {
             InitializeComponent();
+
+            Console.WriteLine("Data_Head_Info = {0}", System.Runtime.InteropServices.Marshal.SizeOf(common.gData_Head_Info));
         }
 
         private void button_open_Click(object sender, EventArgs e)
@@ -88,8 +88,24 @@ namespace VS_BinToTxt
         {
             InputDirectories = this.textBox_open.Text;
             OutputDirectories = this.textBox_save.Text;
-            traverse_dir(InputDirectories, OutputDirectories, ref gQueue_Data);
+            traverse_dir(InputDirectories, OutputDirectories, ref common.gQueue_Data);
+            Console.WriteLine("gQueue_Data.Count = {0}", common.gQueue_Data.Count);
+            this.label_filenum.Text = "文件个数： " + common.gQueue_Data.Count.ToString();
         }
 
+        private void button_start_Click(object sender, EventArgs e)
+        {
+            workerObject = new ThreadTest();
+            workerThread = new Thread(workerObject.MyThread);
+            workerThread.Name = "文件处理线程";
+            workerThread.Start();
+        }
+
+        private void button_stop_Click(object sender, EventArgs e)
+        {
+            workerObject.RequestStop();
+            workerThread.Join();
+            Console.WriteLine("thread stop!");
+        }
     }
 }
