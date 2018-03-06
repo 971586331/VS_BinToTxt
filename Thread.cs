@@ -1,25 +1,23 @@
 ﻿
+using System.IO;
 using System;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 class ThreadTest
 {
-    Data_Node outdata;
     int i;
-    Data_Head_Info file_head;
-    ushort[] file_buffer = new ushort[32*1024*1024/2];
-
+    Data_Node outdata = new Data_Node();
     public void MyThread()
     {
         while (!_shouldStop)
         {
-            Console.WriteLine("这是一个线程在运行");
             
             switch(common.gCurrent_cmd)
             {
                 case e_Current_cmd.NO_INSTRUCT:
                 {
-                    Thread.Sleep(100); break;
+                    Thread.Sleep(1000); break;
                 }
                 case e_Current_cmd.START_CONVERSION:
                 {
@@ -34,41 +32,33 @@ class ThreadTest
                         break;
                     }
 
+                    Console.WriteLine("正在转换！");
                     Console.WriteLine("Thread inputfile = {0}", outdata.InputFilePath);
                     Console.WriteLine("Thread outputfile = {0}", outdata.OutputFilePath);
+                    
+                    Data_Head_Info file_head = new Data_Head_Info();
+                    byte[] file_buffer = new byte[32L * 1024L * 1024L];
+                    read_file_f(outdata.InputFilePath, ref file_buffer, sizeof(ushort), ref file_head, sizeof(char), System.Runtime.InteropServices.Marshal.SizeOf(common.gData_Head_Info));
 
-                    read_file_f(outdata->InputFilePath, file_buffer, sizeof(ushort), (char *)&file_head, sizeof(char), sizeof(Data_Head_Info));
-
-                    QDateTime current_date_time =QDateTime::currentDateTime();
-                    QString current_date =current_date_time.toString("yyyy.MM.dd hh:mm:ss.zzz ddd");
-                    qDebug() << current_date << endl;
-
-                    QFile f(QString(QLatin1String(outdata->OutputFilePath)));
-                    if(!(f.open(QIODevice::WriteOnly | QIODevice::Text)))
+                    StreamWriter sw = new StreamWriter(outdata.OutputFilePath);
+                    for (i = 0; i < file_head.data_len / sizeof(ushort) - 2; i++)
                     {
-                        qDebug() << "Open failed" << OutputFile;
+                        ushort num = BitConverter.ToUInt16(file_buffer, i*2);
+                        sw.WriteLine(num.ToString());
                     }
-                    QTextStream txtInput(&f);
-                    for(i = 0; i < file_head.data_len/sizeof(short int); i ++)
-                    {
-                        txtInput << file_buff[i] << endl;
-                    }
-                    f.close();
-                    emit signal_updata_state(done_number + 1, total_number, outdata);
-                    i = 0;
-                    done_number ++;
-                    qDebug() << "ssss" << endl;
+                    sw.Close();
                     break;
                 }
-                case CONVERSION_FINISH:
+                case e_Current_cmd.CONVERSION_FINISH:
                 {
-                    msleep(100);
+                    Console.WriteLine("转换完成！");
+
+                    this.RequestStop();
+                    Thread.Sleep(1000);
                     break;
                 }
             }
-            msleep(100);
-
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
         }
     }
     public void RequestStop()
@@ -79,8 +69,31 @@ class ThreadTest
     // member will be accessed by multiple threads.
     private volatile bool _shouldStop;
 
-    public void read_file_f(string filedir, ref ushort[] buff, int data_len, ref Data_Head_Info head, int head_len, int head_num)
-    { 
-    
+    public void read_file_f(string filedir, ref byte[] buff, int data_len, ref Data_Head_Info head, int head_len, int head_num)
+    {
+        byte[] head_buffer = new byte[head_num];
+
+        BinaryReader br = new BinaryReader(new FileStream(filedir, FileMode.Open));
+        head_buffer = br.ReadBytes(head_num);
+        head.time = BitConverter.ToUInt32(head_buffer, 0);
+        head.data_len = BitConverter.ToUInt32(head_buffer, 4);
+        head.sample_multiple = BitConverter.ToUInt32(head_buffer, 8);
+        head.sampling_freq = BitConverter.ToUInt32(head_buffer, 12);
+        head.Gear = BitConverter.ToUInt16(head_buffer, 16);
+        head.Software_Multiple = BitConverter.ToSingle(head_buffer, 20);
+        head.excursion = BitConverter.ToUInt16(head_buffer, 24);
+        head.Capacity = BitConverter.ToSingle(head_buffer, 28);
+
+        Console.WriteLine("head.time = {0}", head.time);
+        Console.WriteLine("head.data_len = {0}", head.data_len);
+        Console.WriteLine("head.sample_multiple = {0}", head.sample_multiple);
+        Console.WriteLine("head.sampling_freq = {0}", head.sampling_freq);
+        Console.WriteLine("head.Gear = {0}", head.Gear);
+        Console.WriteLine("head.Software_Multiple = {0}", head.Software_Multiple);
+        Console.WriteLine("head.excursion = {0}", head.excursion);
+        Console.WriteLine("head.Capacity = {0}", head.Capacity);
+
+        buff = br.ReadBytes((int)head.data_len);
+        br.Close();
     }
 }

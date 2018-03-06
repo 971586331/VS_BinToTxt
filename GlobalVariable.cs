@@ -20,17 +20,18 @@ public enum e_Current_cmd
 };
 
 //数据文件头
-[StructLayout(LayoutKind.Sequential, Pack = 2)]
+[StructLayout(LayoutKind.Sequential, Pack = 4)]
 public struct Data_Head_Info
 {
-    public long time;                    //时间
-    public uint data_len;          //数据的长度(byte)
-    public uint sample_multiple;     //采样档位
-    public uint sampling_freq;     //采样频率(HZ)
-    public ushort Gear;        //档位
-    public float Software_Multiple;        //软件倍数
+    public uint time;                   //时间
+    public uint data_len;               //数据的长度(byte)
+    public uint sample_multiple;        //采样档位
+    public uint sampling_gear;          //采样频率档位
+    public uint sampling_freq;          //采样频率(HZ)
+    public ushort Gear;                 //档位
+    public float Software_Multiple;     //软件倍数
     public ushort excursion;            //偏移
-    public float Capacity;                 //最大量程
+    public float Capacity;              //最大量程
 };
 
 public static class common // static 不是必须

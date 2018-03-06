@@ -98,6 +98,7 @@ namespace VS_BinToTxt
             workerObject = new ThreadTest();
             workerThread = new Thread(workerObject.MyThread);
             workerThread.Name = "文件处理线程";
+            common.gCurrent_cmd = e_Current_cmd.START_CONVERSION;
             workerThread.Start();
         }
 
