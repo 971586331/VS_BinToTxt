@@ -49,6 +49,4 @@ public static class common // static 不是必须
 
     public static e_Current_cmd gCurrent_cmd;
     public static Data_Head_Info gData_Head_Info;
-
-    public static SynchronizationContext _syncContext = null;
 }

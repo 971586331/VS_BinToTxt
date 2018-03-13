@@ -15,11 +15,12 @@ namespace VS_BinToTxt
 {
     public partial class Form1 : Form
     {
-        ThreadTest workerObject;
         Thread workerThread;
 
         public string InputDirectories;
         public string OutputDirectories;
+
+        public delegate void stuInfoDelegate(int value, string input, string output);  //声明委托类型
 
         void traverse_dir(string inputpath, string outputpath, ref Queue<Data_Node> queue)
         {
@@ -58,8 +59,13 @@ namespace VS_BinToTxt
         public Form1()
         {
             InitializeComponent();
-            common._syncContext = SynchronizationContext.Current;
             Console.WriteLine("Data_Head_Info = {0}", System.Runtime.InteropServices.Marshal.SizeOf(common.gData_Head_Info));
+
+            System.Timers.Timer t = new System.Timers.Timer(1000);//实例化Timer类，设置间隔时间为10000毫秒；
+            t.Elapsed += new System.Timers.ElapsedEventHandler(theout);//到达时间的时候执行事件；
+            t.AutoReset = true;//设置是执行一次（false）还是一直执行(true)；
+            t.Enabled = true;//是否执行System.Timers.Timer.Elapsed事件；
+            t.Start();
         }
 
         private void button_open_Click(object sender, EventArgs e)
@@ -91,28 +97,39 @@ namespace VS_BinToTxt
             traverse_dir(InputDirectories, OutputDirectories, ref common.gQueue_Data);
             Console.WriteLine("gQueue_Data.Count = {0}", common.gQueue_Data.Count);
             this.label_filenum.Text = "文件个数： " + common.gQueue_Data.Count.ToString();
+            this.progressBar.Maximum = common.gQueue_Data.Count;
+            this.progressBar.Value = 0;
         }
 
         private void button_start_Click(object sender, EventArgs e)
         {
-            workerObject = new ThreadTest();
-            workerThread = new Thread(workerObject.MyThread);
+            workerThread = new Thread(MyThread);
             workerThread.Name = "文件处理线程";
             common.gCurrent_cmd = e_Current_cmd.START_CONVERSION;
-
+            RequestStart();
             workerThread.Start();
         }
 
         private void button_stop_Click(object sender, EventArgs e)
         {
-            workerObject.RequestStop();
+            RequestStop();
             workerThread.Join();
             Console.WriteLine("thread stop!");
         }
 
-        private void SetLabelText(object text)
+        //委托，用于在线程中防问UI线程的控件
+        private void showStuIfo(int value, string input, string output)  //本例中的线程要通过这个方法来访问主线程中的控件
         {
- 
+            this.progressBar.Value = value;
+            this.label_CurrentInput.Text = input;
+            this.label_CurrentOutput.Text = output;
         }
+
+        //1000MS的定时器
+        public void theout(object source, System.Timers.ElapsedEventArgs e)
+        {
+            Console.WriteLine("1000MS!");
+        }
+
     }
 }
