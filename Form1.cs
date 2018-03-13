@@ -58,7 +58,7 @@ namespace VS_BinToTxt
         public Form1()
         {
             InitializeComponent();
-
+            common._syncContext = SynchronizationContext.Current;
             Console.WriteLine("Data_Head_Info = {0}", System.Runtime.InteropServices.Marshal.SizeOf(common.gData_Head_Info));
         }
 
@@ -99,6 +99,7 @@ namespace VS_BinToTxt
             workerThread = new Thread(workerObject.MyThread);
             workerThread.Name = "文件处理线程";
             common.gCurrent_cmd = e_Current_cmd.START_CONVERSION;
+
             workerThread.Start();
         }
 
@@ -107,6 +108,11 @@ namespace VS_BinToTxt
             workerObject.RequestStop();
             workerThread.Join();
             Console.WriteLine("thread stop!");
+        }
+
+        private void SetLabelText(object text)
+        {
+ 
         }
     }
 }

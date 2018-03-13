@@ -38,7 +38,7 @@
             this.label_filenum = new System.Windows.Forms.Label();
             this.button_start = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.label_CurrentInput = new System.Windows.Forms.Label();
             this.label_CurrentOutput = new System.Windows.Forms.Label();
             this.label_ShowTime = new System.Windows.Forms.Label();
@@ -137,12 +137,12 @@
             this.button_stop.UseVisualStyleBackColor = true;
             this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(23, 207);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(347, 23);
-            this.progressBar1.TabIndex = 10;
+            this.progressBar.Location = new System.Drawing.Point(23, 207);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(347, 23);
+            this.progressBar.TabIndex = 10;
             // 
             // label_CurrentInput
             // 
@@ -199,7 +199,7 @@
             this.Controls.Add(this.label_ShowTime);
             this.Controls.Add(this.label_CurrentOutput);
             this.Controls.Add(this.label_CurrentInput);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBar);
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.label_filenum);
@@ -229,7 +229,7 @@
         private System.Windows.Forms.Label label_filenum;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_stop;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label label_CurrentInput;
         private System.Windows.Forms.Label label_CurrentOutput;
         private System.Windows.Forms.Label label_ShowTime;

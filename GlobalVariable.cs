@@ -1,8 +1,10 @@
 ﻿
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.StubHelpers;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 //输入输出文件结构体
 public struct Data_Node
@@ -47,4 +49,6 @@ public static class common // static 不是必须
 
     public static e_Current_cmd gCurrent_cmd;
     public static Data_Head_Info gData_Head_Info;
+
+    public static SynchronizationContext _syncContext = null;
 }
