@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace VS_BinToTxt
 {
@@ -13,6 +14,9 @@ namespace VS_BinToTxt
         [STAThread]
         static void Main()
         {
+            Process cur = Process.GetCurrentProcess();
+            Console.WriteLine("Process = {0}", cur.ProcessName);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

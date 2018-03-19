@@ -3,7 +3,7 @@ using System.IO;
 using System;
 using System.Threading;
 using System.Runtime.InteropServices;
-
+using System.Diagnostics;
 
 namespace VS_BinToTxt
 {
@@ -12,11 +12,11 @@ namespace VS_BinToTxt
         int i = 0;
         int Current_Count = 0;
         Data_Node outdata = new Data_Node();
+
         public void MyThread()
         {
             while (!_shouldStop)
             {
-
                 switch (common.gCurrent_cmd)
                 {
                     case e_Current_cmd.NO_INSTRUCT:
@@ -37,9 +37,9 @@ namespace VS_BinToTxt
                             break;
                         }
 
-                        Console.WriteLine("正在转换！");
-                        Console.WriteLine("Thread inputfile = {0}", outdata.InputFilePath);
-                        Console.WriteLine("Thread outputfile = {0}", outdata.OutputFilePath);
+                        //Console.WriteLine("正在转换！");
+                        //Console.WriteLine("Thread inputfile = {0}", outdata.InputFilePath);
+                        //Console.WriteLine("Thread outputfile = {0}", outdata.OutputFilePath);
 
                         Data_Head_Info file_head = new Data_Head_Info();
                         byte[] file_buffer = new byte[32L * 1024L * 1024L];
@@ -53,7 +53,16 @@ namespace VS_BinToTxt
                         }
                         sw.Close();
                         Current_Count ++;
-                        Invoke(new stuInfoDelegate(showStuIfo), new object[] { Current_Count, outdata.InputFilePath, outdata.OutputFilePath }); //线程通过方法的委托执行showStuIfo()，实现对ListBox控件的访问
+
+                        try
+                        {
+                            Invoke(new stuInfoDelegate(showStuIfo), new object[] { Current_Count, outdata.InputFilePath, outdata.OutputFilePath }); //线程通过方法的委托执行showStuIfo()，实现对ListBox控件的访问
+                        }
+                        catch
+                        {
+                            //Console.WriteLine("屏蔽一个错误！");
+                        }
+                        
                         break;
                     }
                     case e_Current_cmd.CONVERSION_FINISH:
@@ -65,7 +74,7 @@ namespace VS_BinToTxt
                         break;
                     }
                 }
-                Thread.Sleep(100);
+                Thread.Sleep(1);
             }
         }
         public void RequestStop()
@@ -96,14 +105,14 @@ namespace VS_BinToTxt
             head.excursion = BitConverter.ToUInt16(head_buffer, 24);
             head.Capacity = BitConverter.ToSingle(head_buffer, 28);
 
-            Console.WriteLine("head.time = {0}", head.time);
-            Console.WriteLine("head.data_len = {0}", head.data_len);
-            Console.WriteLine("head.sample_multiple = {0}", head.sample_multiple);
-            Console.WriteLine("head.sampling_freq = {0}", head.sampling_freq);
-            Console.WriteLine("head.Gear = {0}", head.Gear);
-            Console.WriteLine("head.Software_Multiple = {0}", head.Software_Multiple);
-            Console.WriteLine("head.excursion = {0}", head.excursion);
-            Console.WriteLine("head.Capacity = {0}", head.Capacity);
+            //Console.WriteLine("head.time = {0}", head.time);
+            //Console.WriteLine("head.data_len = {0}", head.data_len);
+            //Console.WriteLine("head.sample_multiple = {0}", head.sample_multiple);
+            //Console.WriteLine("head.sampling_freq = {0}", head.sampling_freq);
+            //Console.WriteLine("head.Gear = {0}", head.Gear);
+            //Console.WriteLine("head.Software_Multiple = {0}", head.Software_Multiple);
+            //Console.WriteLine("head.excursion = {0}", head.excursion);
+            //Console.WriteLine("head.Capacity = {0}", head.Capacity);
 
             buff = br.ReadBytes((int)head.data_len);
             br.Close();
