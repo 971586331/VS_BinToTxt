@@ -15,7 +15,7 @@ namespace VS_BinToTxt
 
         public void MyThread()
         {
-            while (!_shouldStop)
+            while (_shouldStop)
             {
                 switch (common.gCurrent_cmd)
                 {
@@ -53,10 +53,10 @@ namespace VS_BinToTxt
                         }
                         sw.Close();
                         Current_Count ++;
-
+                        
                         try
                         {
-                            Invoke(new stuInfoDelegate(showStuIfo), new object[] { Current_Count, outdata.InputFilePath, outdata.OutputFilePath }); //线程通过方法的委托执行showStuIfo()，实现对ListBox控件的访问
+                            button_start.BeginInvoke(new stuInfoDelegate(showStuIfo), new object[] { Current_Count, outdata.InputFilePath, outdata.OutputFilePath }); //线程通过方法的委托执行showStuIfo()，实现对ListBox控件的访问
                         }
                         catch
                         {
@@ -79,12 +79,12 @@ namespace VS_BinToTxt
         }
         public void RequestStop()
         {
-            _shouldStop = true;
+            _shouldStop = false;
         }
 
         public void RequestStart()
         {
-            _shouldStop = false;
+            _shouldStop = true;
         }
         // Volatile is used as hint to the compiler that this data
         // member will be accessed by multiple threads.

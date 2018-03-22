@@ -14,3 +14,11 @@ D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.cspro
 D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.exe
 D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.pdb
 D:\WorkSync\recorder\SVN\01.Code\ARM\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.csprojResolveAssemblyReference.cache
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.exe
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.pdb
+E:\GitHub\VS_BinToTxt\bin\Debug\VS_BinToTxt.exe
+E:\GitHub\VS_BinToTxt\bin\Debug\VS_BinToTxt.pdb
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.csprojResolveAssemblyReference.cache
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.Form1.resources
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.Properties.Resources.resources
+E:\GitHub\VS_BinToTxt\obj\x86\Debug\VS_BinToTxt.csproj.GenerateResource.Cache
